@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MBCViewController : UIViewController
+@interface MBCViewController : UIViewController <CLLocationManagerDelegate>
+
+@property (nonatomic, readonly) CLLocationManager* locationManager;
+@property (nonatomic, readonly) NSUUID* proximityUUID;
+@property (nonatomic, readonly) CLBeaconRegion* beaconRegion;
 
 @end

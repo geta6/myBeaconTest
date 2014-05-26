@@ -8,7 +8,16 @@
 
 #import "MBCViewController.h"
 
+#define isRegion(region) [region isMemberOfClass:[CLBeaconRegion class]] && [CLLocationManager isRangingAvailable]
+
 @interface MBCViewController ()
+{
+  __weak IBOutlet UILabel* beaconRange;
+}
+
+@property (nonatomic, readwrite) CLLocationManager* locationManager;
+@property (nonatomic, readwrite) NSUUID* proximityUUID;
+@property (nonatomic, readwrite) CLBeaconRegion* beaconRegion;
 
 @end
 
@@ -16,14 +25,50 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+  [super viewDidLoad];
+
+  if ([CLLocationManager isMonitoringAvailableForClass:[CLBeaconRegion class]]) {
+    self.locationManager = [CLLocationManager new];
+    self.locationManager.delegate = self;
+    self.proximityUUID = [[NSUUID alloc] initWithUUIDString:@"ここにUUID"];
+    self.beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:self.proximityUUID identifier:@"net.geta6.mybeaconregion"];
+    [self.locationManager startMonitoringForRegion:self.beaconRegion];
+  }
 }
 
-- (void)didReceiveMemoryWarning
+- (void)setRangeTextWithBeacon:(CLBeacon*)beacon
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+  [beaconRange setText:[NSString stringWithFormat:@"major:%@\nminor:%@\naccuracy:%f\nrssi:%d",
+                        beacon.major, beacon.minor, beacon.accuracy, beacon.rssi]];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region
+{
+  [self.locationManager requestStateForRegion:self.beaconRegion];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region
+{
+  if (state == CLRegionStateInside && isRegion(region))
+    [self.locationManager startRangingBeaconsInRegion:self.beaconRegion];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region
+{
+  if (isRegion(region))
+    [self.locationManager startRangingBeaconsInRegion:(CLBeaconRegion *)region];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
+{
+  if (isRegion(region))
+    [self.locationManager stopRangingBeaconsInRegion:(CLBeaconRegion *)region];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
+{
+  if (beacons.count > 0)
+    [self setRangeTextWithBeacon:beacons.firstObject];
 }
 
 @end

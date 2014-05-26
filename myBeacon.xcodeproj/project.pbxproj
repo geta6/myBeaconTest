@@ -22,6 +22,7 @@
 		7B693ED4193309BA00515ACE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B693EB3193309BA00515ACE /* UIKit.framework */; };
 		7B693EDC193309BA00515ACE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B693EDA193309BA00515ACE /* InfoPlist.strings */; };
 		7B693EDE193309BA00515ACE /* myBeaconTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B693EDD193309BA00515ACE /* myBeaconTests.m */; };
+		7B693EEA19330A2200515ACE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B693EE919330A2200515ACE /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,8 @@
 		7B693ED9193309BA00515ACE /* myBeaconTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "myBeaconTests-Info.plist"; sourceTree = "<group>"; };
 		7B693EDB193309BA00515ACE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7B693EDD193309BA00515ACE /* myBeaconTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = myBeaconTests.m; sourceTree = "<group>"; };
+		7B693EE7193309E200515ACE /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		7B693EE919330A2200515ACE /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B693EEA19330A2200515ACE /* CoreLocation.framework in Frameworks */,
 				7B693EB2193309BA00515ACE /* CoreGraphics.framework in Frameworks */,
 				7B693EB4193309BA00515ACE /* UIKit.framework in Frameworks */,
 				7B693EB0193309BA00515ACE /* Foundation.framework in Frameworks */,
@@ -103,6 +107,8 @@
 		7B693EAE193309BA00515ACE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7B693EE919330A2200515ACE /* CoreLocation.framework */,
+				7B693EE7193309E200515ACE /* CoreBluetooth.framework */,
 				7B693EAF193309BA00515ACE /* Foundation.framework */,
 				7B693EB1193309BA00515ACE /* CoreGraphics.framework */,
 				7B693EB3193309BA00515ACE /* UIKit.framework */,
@@ -203,6 +209,13 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = geta6;
 				TargetAttributes = {
+					7B693EAB193309BA00515ACE = {
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
 					7B693ECF193309BA00515ACE = {
 						TestTargetID = 7B693EAB193309BA00515ACE;
 					};
