@@ -42,29 +42,34 @@
                         beacon.major, beacon.minor, beacon.accuracy, beacon.rssi]];
 }
 
+// アプリケーションの起動時、Beaconの範囲内にいるかどうかのチェッカーをキックする
 - (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region
 {
   [self.locationManager requestStateForRegion:self.beaconRegion];
 }
 
+// ↑を受けてBeaconの範囲内にいるか判定
 - (void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region
 {
   if (state == CLRegionStateInside && isRegion(region))
     [self.locationManager startRangingBeaconsInRegion:self.beaconRegion];
 }
 
+// Beacon範囲内に入った
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region
 {
   if (isRegion(region))
     [self.locationManager startRangingBeaconsInRegion:(CLBeaconRegion *)region];
 }
 
+// Beacon範囲内から出た
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
 {
   if (isRegion(region))
     [self.locationManager stopRangingBeaconsInRegion:(CLBeaconRegion *)region];
 }
 
+// Beacon範囲内にいる時にキックされ続けるdelegate
 - (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
 {
   if (beacons.count > 0)
